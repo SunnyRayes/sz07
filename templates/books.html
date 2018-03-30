@@ -6,16 +6,28 @@
 </head>
 <body>
 <form method="post">
-    {% csrf_token %}
-    表单
+    {{ form.author.label }}{{ form.author }}
+    {{ form.book.label }}{{ form.book }}
+    {{ form.submit }}
 </form>
 <hr/>
-闪现
+{% for message in get_flashed_messages() %}
+    {{ message }}
+{% endfor %}
 <hr/>
 <ul>
-    作者
-    <li>张三-----<a href="/delete/user_id"></a></li>
-    书名
+        <h3>作者</h3>
+    {% for author in authors %}
+        <li>{{ author.name }}----<a href="/del_author/{{ author.id }}">删除</a></li>
+        <h5>书名</h5>
+        <ul>
+        {% for book in author.books %}
+            <li>{{ book.name }}-----<a href="/del_book/{{ book.id }}">删除</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <h2>没有数据啦。。。</h2>
+    {% endfor %}
 </ul>
 </body>
 </html>
